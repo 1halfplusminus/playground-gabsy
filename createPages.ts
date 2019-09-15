@@ -1,13 +1,57 @@
+import { CreateNodeArgs, CreatePagesArgs } from "gatsby";
+import { createFilePath } from "gatsby-source-filesystem";
 import { resolve } from "path";
-import { GatsbyCreatePages } from "./types";
 
-const createPages: GatsbyCreatePages = async ({
+export interface IndexProps {
+  data: Data;
+}
+
+export interface Data {
+  allMarkdownRemark: AllMarkdownRemark;
+}
+
+export interface AllMarkdownRemark {
+  totalCount: number;
+  edges: Edge[];
+}
+
+export interface Edge {
+  node: Node;
+}
+
+export interface Node {
+  id: string;
+  frontmatter: Frontmatter;
+  excerpt: string;
+  fields: {
+    slug: string,
+  };
+}
+
+export interface Frontmatter {
+  title: string;
+  date: string;
+}
+
+export const onCreateNode = ({ node, getNode, actions }: CreateNodeArgs) => {
+  const { createNodeField } = actions;
+  if (node.internal.type === `MarkdownRemark`) {
+    const slug = createFilePath({ node, getNode, basePath: `pages` });
+    createNodeField({
+      node,
+      name: `slug`,
+      value: slug,
+    });
+  }
+};
+
+export const createPages = async ({
   graphql,
   boundActionCreators,
-}) => {
+}: CreatePagesArgs) => {
   const { createPage } = boundActionCreators;
 
-  const allMarkdown = await graphql(`
+  const allMarkdown = await graphql<Data>(`
     {
       allMarkdownRemark(limit: 1000) {
         edges {
@@ -30,12 +74,10 @@ const createPages: GatsbyCreatePages = async ({
     // type safe `createPage` call
     createPage({
       path: slug,
-      component: resolve(__dirname, "../src/templates/index.tsx"),
+      component: resolve(__dirname, "./src/templates/blog-post.tsx"),
       context: {
         slug,
       },
     });
   });
 };
-
-export default createPages;

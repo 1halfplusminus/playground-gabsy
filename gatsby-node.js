@@ -8,4 +8,6 @@ require("ts-node").register({
   },
 })
 
-exports.createPages = require("./createPages").default
+exports.createPages = require("./createPages").createPages
+
+exports.onCreateNode = require("./createPages").onCreateNode
