@@ -13,12 +13,31 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \""
   },
   "dependencies": {
+    "@emotion/core": "^10.0.17",
+    "@emotion/styled": "^10.0.17",
     "gatsby": "^2.15.15",
+    "gatsby-plugin-emotion": "^4.1.6",
+    "gatsby-plugin-typescript": "^2.1.7",
+    "gatsby-plugin-typography": "^2.3.7",
+    "gatsby-source-filesystem": "^2.1.22",
+    "gatsby-transformer-remark": "^2.6.22",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "react-typography": "^0.16.19",
+    "ts-node": "^8.3.0",
+    "typography": "^0.16.19",
+    "typography-theme-fairy-gates": "^0.16.19",
+    "typography-theme-kirkham": "^0.16.19"
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "@types/typography": "^0.16.3",
+    "gatsby-plugin-tslint": "^0.0.2",
+    "prettier": "^1.18.2",
+    "ts-lint": "^4.5.1",
+    "tslint": "^5.20.0",
+    "tslint-loader": "^3.5.4",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.6.3"
   },
   "repository": {
     "type": "git",
