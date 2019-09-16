@@ -1,6 +1,7 @@
 import css from "@emotion/css";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import React from "react";
+import Helmet from "react-helmet";
 import Layout from "../components/layout";
 import { rhythm } from "../utils/typography";
 
@@ -25,6 +26,9 @@ export interface Node {
   id: string;
   frontmatter: Frontmatter;
   excerpt: string;
+  fields: {
+    slug: string,
+  };
 }
 
 export interface Frontmatter {
@@ -34,6 +38,10 @@ export interface Frontmatter {
 
 export default ({ data }: IndexProps) => (
   <Layout>
+    <Helmet>
+      <meta charSet="utf-8" />
+      <title>Mon chiot et moi</title>
+    </Helmet>
     <div>
       <h1
         css={css`
@@ -41,26 +49,34 @@ export default ({ data }: IndexProps) => (
           border-bottom: 1px solid;
         `}
       >
-        Amazing Pandas Eating Things
+        Super blog sur mon chiot
       </h1>
-      <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
+      <h4>{data.allMarkdownRemark.totalCount} Postes</h4>
       {data.allMarkdownRemark.edges.map(({ node }) => (
         <div key={node.id}>
-          <h3
+          <Link
+            to={node.fields.slug}
             css={css`
-              margin-bottom: ${rhythm(1 / 4)};
+              text-decoration: none;
+              color: inherit;
             `}
           >
-            {node.frontmatter.title}{" "}
-            <span
+            <h3
               css={css`
-                color: #bbb;
+                margin-bottom: ${rhythm(1 / 4)};
               `}
             >
-              — {node.frontmatter.date}
-            </span>
-          </h3>
-          <p>{node.excerpt}</p>
+              {node.frontmatter.title}{" "}
+              <span
+                css={css`
+                  color: #bbb;
+                `}
+              >
+                — {node.frontmatter.date}
+              </span>
+            </h3>
+            <p>{node.excerpt}</p>
+          </Link>
         </div>
       ))}
     </div>
@@ -69,14 +85,17 @@ export default ({ data }: IndexProps) => (
 
 export const query = graphql`
   query {
-    allMarkdownRemark(sort: { fields: frontmatter___date, order: ASC }) {
+    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
       totalCount
       edges {
         node {
           id
           frontmatter {
             title
-            date(formatString: "DD MMMM, YYYY")
+            date(formatString: "DD MMMM, YYYY", locale: "fr")
+          }
+          fields {
+            slug
           }
           excerpt
         }

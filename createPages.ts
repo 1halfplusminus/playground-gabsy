@@ -1,37 +1,7 @@
 import { CreateNodeArgs, CreatePagesArgs } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
 import { resolve } from "path";
-
-export interface IndexProps {
-  data: Data;
-}
-
-export interface Data {
-  allMarkdownRemark: AllMarkdownRemark;
-}
-
-export interface AllMarkdownRemark {
-  totalCount: number;
-  edges: Edge[];
-}
-
-export interface Edge {
-  node: Node;
-}
-
-export interface Node {
-  id: string;
-  frontmatter: Frontmatter;
-  excerpt: string;
-  fields: {
-    slug: string,
-  };
-}
-
-export interface Frontmatter {
-  title: string;
-  date: string;
-}
+import { Data } from "./src/interfaces";
 
 export const onCreateNode = ({ node, getNode, actions }: CreateNodeArgs) => {
   const { createNodeField } = actions;
@@ -64,7 +34,6 @@ export const createPages = async ({
       }
     }
   `);
-  console.log(allMarkdown);
   allMarkdown.data.allMarkdownRemark.edges.forEach((edge) => {
     const { slug } = edge.node.fields;
     if (!slug) {

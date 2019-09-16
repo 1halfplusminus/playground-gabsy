@@ -14,10 +14,10 @@ export interface IndexProps {
 
 export default ({ data }: IndexProps) => (
   <Layout>
-    <h1>About {data.site.siteMetadata.title}</h1>
+    <h1> À propos {data.site.siteMetadata.title}</h1>
     <p>
-      We're the only site running on your computer dedicated to showing the best
-      photos and videos of pandas eating lots of food.
+      Nous sommes le seul site fonctionnant sur votre ordinateur à afficher les
+      meilleures photos et vidéos de mon chien mangeant beaucoup de nourriture.
     </p>
   </Layout>
 );

@@ -40,7 +40,7 @@ export default ({ children }) => {
           float: right;
         `}
       >
-        About
+        À propos
       </Link>
       {children}
     </div>
