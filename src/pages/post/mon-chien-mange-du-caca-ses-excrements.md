@@ -1,10 +1,8 @@
 ---
 title: "Mon chien mange ses propres excréments"
 date: "2019-09-16"
+featuredImage: ./images/photo_2019-09-17_18-02-43.jpg
 ---
-
-![](https://parlezvouschien.fr/wp-content/uploads/2019/03/coprophagie-3654x1827.jpg "coprophagie")
-
 Les chiens peuvent être tentés de manger leurs excréments et ceux des autres animaux. Ce comportement peu ragoutant n’est en principe pas dangereux pour sa santé mais est révélateur de problèmes.
 
 Mon chien mange ses propres excréments

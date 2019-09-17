@@ -1,6 +1,7 @@
 ---
 title: "IDÉES PRÉNOMS EN R ANNÉE 2020 POUR CHIEN, CHIENNE ET CHIOT"
 date: "2019-09-10"
+featuredImage: ./images/photo_2019-09-16_19-31-14.jpg
 ---
 Quel prénom choisir en R pour mon chien en 2020 ?
 -------------------------------------------------

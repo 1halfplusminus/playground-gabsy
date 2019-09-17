@@ -69,3 +69,26 @@ export const query = graphql`
     }
   }
 `;
+
+export const sliderQuery = graphql`
+  query SliderQuery {
+    allMarkdownRemark(sort: { fields: frontmatter___date, order: ASC }) {
+      totalCount
+      edges {
+        node {
+          frontmatter {
+            featuredImage {
+              childImageSharp {
+                fluid(maxWidth: 800) {
+                  src
+                }
+              }
+            }
+            title
+            date(formatString: "DD MMMM, YYYY", locale: "fr")
+          }
+        }
+      }
+    }
+  }
+`;

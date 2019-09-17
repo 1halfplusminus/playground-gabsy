@@ -13,6 +13,8 @@ module.exports = {
     "gatsby-plugin-typescript",
     "gatsby-plugin-tslint",
     "gatsby-plugin-emotion",
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
     `gatsby-transformer-remark`,
     {
       resolve: `gatsby-plugin-typography`,
@@ -30,8 +32,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `GatsbyJS`,
-        short_name: `GatsbyJS`,
+        name: `LeBraz`,
+        short_name: `LeBraz`,
         start_url: `/`,
         background_color: `#6b37bf`,
         theme_color: `#6b37bf`,

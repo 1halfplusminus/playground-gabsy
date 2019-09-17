@@ -19,8 +19,12 @@ export default ({ children }) => {
       css={css`
         margin: 0 auto;
         max-width: 700px;
-        padding: ${rhythm(2)};
+        padding: ${rhythm(1)};
         padding-top: ${rhythm(1.5)};
+        @media (max-width: 360px) {
+          padding: ${rhythm(1)};
+          padding-top: ${rhythm(0.5)};
+        }
       `}
     >
       <Link to={`/`}>

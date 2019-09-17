@@ -17,7 +17,7 @@ export default ({ data }: IndexProps) => (
     <h1> À propos {data.site.siteMetadata.title}</h1>
     <p>
       Nous sommes le seul site fonctionnant sur votre ordinateur à afficher les
-      meilleures photos et vidéos de mon chien mangeant beaucoup de nourriture.
+      meilleures photos et vidéos de mon chiot mangeant beaucoup de nourriture.
     </p>
   </Layout>
 );

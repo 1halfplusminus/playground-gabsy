@@ -2,7 +2,9 @@ import css from "@emotion/css";
 import { graphql, Link } from "gatsby";
 import React from "react";
 import Helmet from "react-helmet";
+import HomeSlider from "../components/homeslider.component";
 import Layout from "../components/layout";
+import { SliderQuery } from "../interfaces/query-slider";
 import { rhythm } from "../utils/typography";
 
 export interface IndexProps {
@@ -10,7 +12,8 @@ export interface IndexProps {
 }
 
 export interface Data {
-  allMarkdownRemark: AllMarkdownRemark;
+  blogs: AllMarkdownRemark;
+  sliders: SliderQuery;
 }
 
 export interface AllMarkdownRemark {
@@ -36,7 +39,12 @@ export interface Frontmatter {
   date: string;
 }
 
-export default ({ data }: IndexProps) => (
+export default ({
+  data: {
+    blogs: { totalCount, edges },
+    sliders,
+  },
+}: IndexProps) => (
   <Layout>
     <Helmet>
       <meta charSet="utf-8" />
@@ -47,12 +55,26 @@ export default ({ data }: IndexProps) => (
         css={css`
           display: inline-block;
           border-bottom: 1px solid;
+          margin-bottom: px;
         `}
       >
         Super blog sur mon chiot
       </h1>
-      <h4>{data.allMarkdownRemark.totalCount} Postes</h4>
-      {data.allMarkdownRemark.edges.map(({ node }) => (
+      <HomeSlider
+        images={sliders.edges.map(
+          (e) => e.node.frontmatter.featuredImage.childImageSharp.fluid,
+        )}
+      />
+      <h4
+        css={css`
+          display: inline-block;
+          margin-top: 15px;
+          margin-bottom: 15px;
+        `}
+      >
+        {totalCount} Postes
+      </h4>
+      {edges.map(({ node }) => (
         <div key={node.id}>
           <Link
             to={node.fields.slug}
@@ -63,7 +85,7 @@ export default ({ data }: IndexProps) => (
           >
             <h3
               css={css`
-                margin-bottom: ${rhythm(1 / 4)};
+                margin-bottom: ${rhythm(1)};
               `}
             >
               {node.frontmatter.title}{" "}
@@ -85,7 +107,9 @@ export default ({ data }: IndexProps) => (
 
 export const query = graphql`
   query {
-    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
+    blogs: allMarkdownRemark(
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
       totalCount
       edges {
         node {
@@ -98,6 +122,31 @@ export const query = graphql`
             slug
           }
           excerpt
+        }
+      }
+    }
+    sliders: allMarkdownRemark(
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
+      totalCount
+      edges {
+        node {
+          frontmatter {
+            featuredImage {
+              childImageSharp {
+                fixed(height: 400) {
+                  ...GatsbyImageSharpFixed
+                }
+                fluid(maxWidth: 700, maxHeight: 800, cropFocus: CENTER) {
+                  ...GatsbyImageSharpFluid
+                  presentationWidth
+                  presentationHeight
+                }
+              }
+            }
+            title
+            date(formatString: "DD MMMM, YYYY", locale: "fr")
+          }
         }
       }
     }
