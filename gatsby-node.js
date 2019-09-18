@@ -11,3 +11,5 @@ require("ts-node").register({
 exports.createPages = require("./createPages").createPages
 
 exports.onCreateNode = require("./createPages").onCreateNode
+
+exports.onCreatePage = require("./createPages").onCreatePagesestricted

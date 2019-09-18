@@ -1,4 +1,9 @@
-import { CreateNodeArgs, CreatePagesArgs } from "gatsby";
+import {
+  Actions,
+  CreateNodeArgs,
+  CreatePageArgs,
+  CreatePagesArgs,
+} from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
 import { resolve } from "path";
 import { Data } from "./src/interfaces";
@@ -15,6 +20,22 @@ export const onCreateNode = ({ node, getNode, actions }: CreateNodeArgs) => {
   }
 };
 
+export const onCreatePagesestricted = async ({
+  page,
+  actions,
+}: {
+  page: { path: string; component: string; context: {}; matchPath: string }
+  actions: Actions,
+}) => {
+  const { createPage } = actions;
+  // page.matchPath is a special key that's used for matching pages
+  // only on the client
+  if (page.path.match(/^\/app/)) {
+    page.matchPath = "/app/*";
+    // Update the page.
+    createPage(page);
+  }
+};
 export const createPages = async ({
   graphql,
   boundActionCreators,

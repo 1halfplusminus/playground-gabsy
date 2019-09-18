@@ -17,8 +17,12 @@ const HomeSlider = ({
   } as Settings;
   return (
     <Slider {...settings}>
-      {images.map((image) =>
-        "aspectRatio" in image ? <Img fluid={image} /> : <Img fixed={image} />,
+      {images.map((image, index) =>
+        "aspectRatio" in image ? (
+          <Img key={index} fluid={image} />
+        ) : (
+          <Img key={index} fixed={image} />
+        ),
       )}
     </Slider>
   );
