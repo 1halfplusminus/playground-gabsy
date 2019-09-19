@@ -1,12 +1,7 @@
-import {
-  Actions,
-  CreateNodeArgs,
-  CreatePageArgs,
-  CreatePagesArgs,
-} from "gatsby";
+import { Actions, CreateNodeArgs, CreatePagesArgs } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
 import { resolve } from "path";
-import { Data } from "./src/interfaces";
+import { Data } from "../src/interfaces";
 
 export const onCreateNode = ({ node, getNode, actions }: CreateNodeArgs) => {
   const { createNodeField } = actions;
@@ -20,7 +15,7 @@ export const onCreateNode = ({ node, getNode, actions }: CreateNodeArgs) => {
   }
 };
 
-export const onCreatePagesestricted = async ({
+export const onCreatePage = async ({
   page,
   actions,
 }: {
@@ -55,19 +50,19 @@ export const createPages = async ({
       }
     }
   `);
-  allMarkdown.data.allMarkdownRemark.edges.forEach((edge) => {
-    const { slug } = edge.node.fields;
-    if (!slug) {
-      return;
-    }
-
-    // type safe `createPage` call
-    createPage({
-      path: slug,
-      component: resolve(__dirname, "./src/templates/blog-post.tsx"),
-      context: {
-        slug,
-      },
+  if (allMarkdown.data) {
+    allMarkdown.data.allMarkdownRemark.edges.forEach((edge) => {
+      const { slug } = edge.node.fields;
+      if (!slug) {
+        return;
+      }
+      createPage({
+        path: slug,
+        component: resolve(__dirname, "../src/templates/blog-post.tsx"),
+        context: {
+          slug,
+        },
+      });
     });
-  });
+  }
 };

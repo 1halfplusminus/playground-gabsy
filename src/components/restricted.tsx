@@ -4,17 +4,16 @@ import { useEffect } from "react";
 import { isLoggedIn } from "../services/auth";
 
 export type RestrictedProps = RouteComponentProps & {
-  render: (props: RouteComponentProps) => React.ReactNode,
+  render: (props: RouteComponentProps) => React.ReactNode
+  loggedIn: boolean,
 };
 export const Restricted = function(props: RestrictedProps) {
-  const { location, render, navigate } = props;
-  const [isLogged, setIsLogged] = useState(false);
+  const { location, render, navigate, loggedIn } = props;
   useEffect(() => {
     const noOnLoginPage = location.pathname !== `/app/login`;
-    setIsLogged(isLoggedIn());
-    if (!isLoggedIn() && noOnLoginPage) {
+    if (!loggedIn && noOnLoginPage) {
       navigate("/app/login");
     }
-  }, [isLogged]);
-  return isLogged ? <>{render(props)}</> : null;
+  }, [loggedIn]);
+  return loggedIn ? <>{render(props)}</> : null;
 };

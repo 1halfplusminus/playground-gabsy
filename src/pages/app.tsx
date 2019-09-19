@@ -4,12 +4,22 @@ import Layout from "../components/layout";
 import Login from "../components/login";
 import Profile from "../components/profil";
 import { Restricted } from "../components/restricted";
-const App = () => (
-  <Layout>
-    <Router>
-      <Restricted path="/app/profil" render={(props) => <Profile {...props} />} />
-      <Login path="/app/login" />
-    </Router>
-  </Layout>
-);
+import { useAuth } from "../containers/auth";
+import firebase from "../services/firebase";
+
+const App = () => {
+  const { handleSignIn, handleSignOut, uid, authStatus } = useAuth(firebase);
+  return (
+    <Layout>
+      <Router>
+        <Restricted
+          loggedIn={authStatus === "logged"}
+          path="/app/profil"
+          render={(props) => <Profile {...props} />}
+        />
+        <Login path="/app/login" />
+      </Router>
+    </Layout>
+  );
+};
 export default App;

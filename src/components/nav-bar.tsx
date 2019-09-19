@@ -21,9 +21,9 @@ const Navbar = () => {
   );
   const content = { message: "", login: true };
   if (isLoggedIn()) {
-    content.message = `Hello, ${getUser().name}`;
+    content.message = `Bonjour, ${getUser().name}`;
   } else {
-    content.message = "You are not logged in";
+    content.message = "Vous n'êtes pas connecté";
   }
   return (
     <div
