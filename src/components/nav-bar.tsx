@@ -46,7 +46,7 @@ const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
         {` `}
         <Link to="/about/">À propos</Link>
         {` `}
-        <Link to="/app/profil/">Espace membre XXX</Link>
+        <Link to="/app/profil/">Espace membre </Link>
         {` `}
         {isLoggedIn ? (
           <a

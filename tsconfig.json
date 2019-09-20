@@ -62,13 +62,14 @@
   },
   "files": [
     "gatsby-browser.ts",
-    "gatsby-config.ts",
     "gatsby-node.ts",
     "gatsby-srr.ts",
     "gatsby/plugin.ts"
   ],
   "exclude": [
       "node_modules",
-      "**/*.ts"
+      "**/*.ts",
+      "**/**.ts",
+      "src"
   ]
 }
