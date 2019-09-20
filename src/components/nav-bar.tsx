@@ -1,13 +1,13 @@
 import { css } from "@emotion/core";
 import { graphql, Link, navigate, useStaticQuery } from "gatsby";
 import React from "react";
-import { getUser, isLoggedIn, logout } from "../services/auth";
 import { rhythm } from "../utils/typography";
 
-const linkCss = css`
-  float: right;
-`;
-const Navbar = () => {
+export interface NavbarProps {
+  isLoggedIn: boolean;
+  onLogout: () => void;
+}
+const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
   const data = useStaticQuery<{ site: { siteMetadata: { title: string } } }>(
     graphql`
       query {
@@ -20,11 +20,6 @@ const Navbar = () => {
     `,
   );
   const content = { message: "", login: true };
-  if (isLoggedIn()) {
-    content.message = `Bonjour, ${getUser().name}`;
-  } else {
-    content.message = "Vous n'êtes pas connecté";
-  }
   return (
     <div
       style={{
@@ -51,14 +46,14 @@ const Navbar = () => {
         {` `}
         <Link to="/about/">À propos</Link>
         {` `}
-        <Link to="/app/profil/">Profil</Link>
+        <Link to="/app/profil/">Espace membre XXX</Link>
         {` `}
-        {isLoggedIn() ? (
+        {isLoggedIn ? (
           <a
             href="/"
             onClick={(event) => {
               event.preventDefault();
-              logout(() => navigate(`/app/login`));
+              onLogout();
             }}
           >
             Se déconnecter

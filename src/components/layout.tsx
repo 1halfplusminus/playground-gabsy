@@ -1,9 +1,17 @@
 import { css } from "@emotion/core";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { rhythm } from "../utils/typography";
 import Navbar from "./nav-bar";
 
-export default ({ children }) => {
+export interface LayoutProps {
+  isLoggedIn: boolean;
+  onLogout: () => void;
+}
+export default ({
+  children,
+  isLoggedIn,
+  onLogout,
+}: PropsWithChildren<LayoutProps>) => {
   return (
     <div
       css={css`
@@ -15,9 +23,10 @@ export default ({ children }) => {
           padding: ${rhythm(1)};
           padding-top: ${rhythm(0.5)};
         }
+        height: 100%;
       `}
     >
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} onLogout={onLogout} />
       {children}
     </div>
   );

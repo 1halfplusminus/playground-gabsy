@@ -4,6 +4,7 @@ import React from "react";
 import Helmet from "react-helmet";
 import HomeSlider from "../components/homeslider.component";
 import Layout from "../components/layout";
+import ConnectedLayout from "../containers/layout";
 import { SliderQuery } from "../interfaces/query-slider";
 import { rhythm } from "../utils/typography";
 
@@ -45,64 +46,68 @@ export default ({
     sliders,
   },
 }: IndexProps) => (
-  <Layout>
-    <Helmet>
-      <meta charSet="utf-8" />
-      <title>Mon chiot et moi</title>
-    </Helmet>
-    <div>
-      <h1
-        css={css`
-          display: inline-block;
-          border-bottom: 1px solid;
-          margin-bottom: px;
-        `}
-      >
-        Super blog sur mon chiot
-      </h1>
-      <HomeSlider
-        images={sliders.edges.map(
-          (e) => e.node.frontmatter.featuredImage.childImageSharp.fluid,
-        )}
-      />
-      <h4
-        css={css`
-          display: inline-block;
-          margin-top: 15px;
-          margin-bottom: 15px;
-        `}
-      >
-        {totalCount} Postes
-      </h4>
-      {edges.map(({ node }) => (
-        <div key={node.id}>
-          <Link
-            to={node.fields.slug}
+  <ConnectedLayout
+    renderChildren={() => {
+      return (
+        <div>
+          <Helmet>
+            <meta charSet="utf-8" />
+            <title>Mon chiot et moi</title>
+          </Helmet>
+          <h1
             css={css`
-              text-decoration: none;
-              color: inherit;
+              display: inline-block;
+              border-bottom: 1px solid;
+              margin-bottom: px;
             `}
           >
-            <h3
-              css={css`
-                margin-bottom: ${rhythm(1)};
-              `}
-            >
-              {node.frontmatter.title}{" "}
-              <span
+            Super blog sur mon chiot
+          </h1>
+          <HomeSlider
+            images={sliders.edges.map(
+              (e) => e.node.frontmatter.featuredImage.childImageSharp.fluid,
+            )}
+          />
+          <h4
+            css={css`
+              display: inline-block;
+              margin-top: 15px;
+              margin-bottom: 15px;
+            `}
+          >
+            {totalCount} Postes
+          </h4>
+          {edges.map(({ node }) => (
+            <div key={node.id}>
+              <Link
+                to={node.fields.slug}
                 css={css`
-                  color: #bbb;
+                  text-decoration: none;
+                  color: inherit;
                 `}
               >
-                — {node.frontmatter.date}
-              </span>
-            </h3>
-            <p>{node.excerpt}</p>
-          </Link>
+                <h3
+                  css={css`
+                    margin-bottom: ${rhythm(1)};
+                  `}
+                >
+                  {node.frontmatter.title}{" "}
+                  <span
+                    css={css`
+                      color: #bbb;
+                    `}
+                  >
+                    — {node.frontmatter.date}
+                  </span>
+                </h3>
+                <p>{node.excerpt}</p>
+              </Link>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  </Layout>
+      );
+    }}
+  />
 );
 
 export const query = graphql`

@@ -1,25 +1,29 @@
 import { createContext, useEffect, useState } from "react";
 import { Firebase } from "../services/firebase";
 
+export type AuthStatus = "logged" | "not_logged" | "unknown";
+
 export interface AuthProps {
   uid: string;
   isAnonymous?: boolean | undefined;
-  authStatus: "logged" | "not_logged" | "unknown";
+  authStatus: AuthStatus;
+  isLoggedIn: boolean;
 }
 
 const initialState: AuthProps = {
   uid: "",
   isAnonymous: undefined,
   authStatus: "unknown",
+  isLoggedIn: false,
 };
 
 export const useAuth = (provider: Firebase) => {
   const { auth } = provider;
   const FireBaseProviver = createContext(provider);
-  const [{ uid, authStatus }, setState] = useState(initialState);
+  const [{ uid, authStatus, isLoggedIn }, setState] = useState(initialState);
   const signIn = (user: firebase.User) => {
     const { uid, isAnonymous } = user;
-    setState({ uid, isAnonymous, authStatus: "logged" });
+    setState({ uid, isAnonymous, authStatus: "logged", isLoggedIn: true });
   };
   const signOut = () => {
     setState({
@@ -53,13 +57,13 @@ export const useAuth = (provider: Firebase) => {
         return Promise.reject(reason);
     }
   };
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     return auth().signOut();
   };
 
   useEffect(() => {
     const stopAuthListener = auth().onAuthStateChanged((user) => {
-      console.log(user);
+      console.log(user, "checkuser");
       if (user) {
         signIn(user);
       } else {
@@ -77,5 +81,6 @@ export const useAuth = (provider: Firebase) => {
     uid,
     FireBaseProviver,
     authStatus,
+    isLoggedIn,
   };
 };

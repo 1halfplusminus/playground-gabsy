@@ -1,19 +1,20 @@
 import { RouteComponentProps } from "@reach/router";
-import React, { Props, ReactNode, useState } from "react";
+import React from "react";
 import { useEffect } from "react";
-import { isLoggedIn } from "../services/auth";
+import { AuthStatus } from "../containers/auth";
 
 export type RestrictedProps = RouteComponentProps & {
   render: (props: RouteComponentProps) => React.ReactNode
-  loggedIn: boolean,
+  loggedIn: boolean
+  authStatus: AuthStatus,
 };
 export const Restricted = function(props: RestrictedProps) {
-  const { location, render, navigate, loggedIn } = props;
+  const { location, render, navigate, loggedIn, authStatus } = props;
   useEffect(() => {
     const noOnLoginPage = location.pathname !== `/app/login`;
-    if (!loggedIn && noOnLoginPage) {
+    if (authStatus === "not_logged" && noOnLoginPage) {
       navigate("/app/login");
     }
-  }, [loggedIn]);
-  return loggedIn ? <>{render(props)}</> : null;
+  }, [authStatus]);
+  return loggedIn ? <>{render(props)}</> : <div> Login ....</div>;
 };
