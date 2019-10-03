@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { graphql } from "gatsby";
 import Img, { FluidObject } from "gatsby-image";
 import React from "react";
-import Layout from "../components/layout";
+import ConnectedLayout from "../containers/layout";
 
 const StyledImage = styled(Img)`
   margin-bottom: 10px;
@@ -36,13 +36,15 @@ const BlogPost = ({
   },
 }: BlogPostProps) => {
   return (
-    <Layout>
-      <div>
-        <h1>{title}</h1>
-        <StyledImage fluid={fluid} />
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-      </div>
-    </Layout>
+    <ConnectedLayout
+      renderChildren={() => (
+        <div>
+          <h1>{title}</h1>
+          <StyledImage fluid={fluid} />
+          <div dangerouslySetInnerHTML={{ __html: html }} />
+        </div>
+      )}
+    />
   );
 };
 export const query = graphql`

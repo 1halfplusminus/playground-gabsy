@@ -1,6 +1,8 @@
 {
-    "files.exclude": {
-        // exclude .js and .js.map files, when in a TypeScript project
-
-    }
+  "files.exclude": {},
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+},
+"typescript.tsdk": "node_modules/typescript/lib"
 }

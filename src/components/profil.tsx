@@ -2,12 +2,17 @@ import { RouteComponentProps } from "@reach/router";
 import React from "react";
 import { getUser } from "../services/auth";
 
-const Profile = (props: RouteComponentProps) => (
+export interface ProfileProps {
+  name: string;
+  email: string;
+}
+
+const Profile = ({ email, name }: RouteComponentProps<ProfileProps>) => (
   <>
     <h1>Your profile</h1>
     <ul>
-      <li>Name: {getUser().name}</li>
-      <li>E-mail: {getUser().email}</li>
+      <li>Name: {name}</li>
+      <li>E-mail: {email}</li>
     </ul>
   </>
 );

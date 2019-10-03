@@ -2,12 +2,16 @@ import { createContext, useEffect, useState } from "react";
 import { Firebase } from "../services/firebase";
 
 export type AuthStatus = "logged" | "not_logged" | "unknown";
-
+export interface User {
+  email: string;
+  name: string;
+}
 export interface AuthProps {
   uid: string;
   isAnonymous?: boolean | undefined;
   authStatus: AuthStatus;
   isLoggedIn: boolean;
+  user?: User;
 }
 
 const initialState: AuthProps = {
@@ -20,10 +24,21 @@ const initialState: AuthProps = {
 export const useAuth = (provider: Firebase) => {
   const { auth } = provider;
   const FireBaseProviver = createContext(provider);
-  const [{ uid, authStatus, isLoggedIn }, setState] = useState(initialState);
-  const signIn = (user: firebase.User) => {
-    const { uid, isAnonymous } = user;
-    setState({ uid, isAnonymous, authStatus: "logged", isLoggedIn: true });
+  const [{ uid, authStatus, isLoggedIn, user }, setState] = useState(
+    initialState,
+  );
+  const signIn = (firebaseUser: firebase.User) => {
+    const { uid: firebaseUid, isAnonymous } = firebaseUser;
+    setState({
+      uid: firebaseUid,
+      isAnonymous,
+      authStatus: "logged",
+      user: {
+        email: firebaseUser.email,
+        name: firebaseUser.displayName,
+      },
+      isLoggedIn: true,
+    });
   };
   const signOut = () => {
     setState({
@@ -33,8 +48,8 @@ export const useAuth = (provider: Firebase) => {
   };
   const handleSignIn: (
     provider: "google" | "anomymous",
-  ) => Promise<string> = async (provider) => {
-    switch (provider) {
+  ) => Promise<string> = async (authProvider) => {
+    switch (authProvider) {
       case "google":
         try {
           return auth().signInWithPopup(new auth.GoogleAuthProvider());
@@ -47,9 +62,9 @@ export const useAuth = (provider: Firebase) => {
       case "anomymous":
         try {
           return auth().signInAnonymously();
-        } catch (error_1) {
-          console.error(error_1);
-          return error_1;
+        } catch (error) {
+          console.error(error);
+          return error;
         }
       default:
         const reason = "Invalid provider passed to signIn method";
@@ -62,10 +77,10 @@ export const useAuth = (provider: Firebase) => {
   };
 
   useEffect(() => {
-    const stopAuthListener = auth().onAuthStateChanged((user) => {
-      console.log(user, "checkuser");
-      if (user) {
-        signIn(user);
+    const stopAuthListener = auth().onAuthStateChanged((firebaseUser) => {
+      console.log(firebaseUser, "checkuser");
+      if (firebaseUser) {
+        signIn(firebaseUser);
       } else {
         signOut();
       }
@@ -82,5 +97,6 @@ export const useAuth = (provider: Firebase) => {
     FireBaseProviver,
     authStatus,
     isLoggedIn,
+    user,
   };
 };
